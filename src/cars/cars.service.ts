@@ -37,6 +37,33 @@ export class CarsService {
   }
 
   update(id:string, updateCarDto:UpdateCarDto){
-    
+    let carDB = this.findOneById(id);
+    this.cars = this.cars.map(car => {
+      if(car.id == id){
+        for( const clave in updateCarDto ){
+          !updateCarDto[clave] ? delete updateCarDto[clave] : false;
+        }
+        carDB = {
+          ...carDB,
+          ...updateCarDto,
+          id
+        }
+        console.log({
+          carDB,
+          updateCarDto
+        });
+        return carDB;
+      }
+      return car;
+    });
+    return carDB;
+  }
+  
+  delete(id:string) {
+    let carDB = this.findOneById(id);
+    this.cars = this.cars.filter(car => car.id != id);
+    return {
+      success: true
+    }
   }
 }
